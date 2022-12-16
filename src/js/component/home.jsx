@@ -1,3 +1,4 @@
+import { stringify } from "query-string";
 import React, { useState, useEffect } from "react";
 
 const ToDo = () => {
@@ -16,12 +17,28 @@ const ToDo = () => {
 
   const api = "https://assets.breatheco.de/apis/fake/todos/user/Keialex17";
 
+  const createUser = async () =>{
+    const responseCreateUser= await fetch(api, {
+      method: "POST" ,
+      body: JSON.stringify ([]),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+  if(responseCreateUser.ok){
+    getTask()
+  }
+  }
+
   const getTask = async () => {
     const response = await fetch(api);
     console.log(response);
     if (response.ok) {
       const data = await response.json();
       setTaskList(data);
+    }
+    else if (response.status == 404){
+      createUser()
     }
   };
 
@@ -63,6 +80,15 @@ const ToDo = () => {
     }
   };
 
+  const handlerButtomDeleteAll = async () => {
+    const responseDeleteAll= await fetch(api, {
+      method: "DELETE"
+    }) 
+    if(responseDeleteAll.ok){
+      getTask()
+    }
+  }
+  
 
   useEffect(() => {
     getTask();
@@ -73,6 +99,7 @@ const ToDo = () => {
         <div className="title d-flex justify-content-center pt-2">
           <h1>Lista de tareas</h1>
         </div>
+        {/* <button onClick={()=> createUser()}> Crear usuario</button> */}
         <div className="col-3"></div>
         <div className="col-6">
           <div className="Card" id="card">
@@ -119,6 +146,7 @@ const ToDo = () => {
                   </span>
                 );
               })}
+              <button onClick={()=> handlerButtomDeleteAll()}>Borrar todo</button>
             </div>
           </div>
         </div>
