@@ -146,7 +146,10 @@ const ToDo = () => {
                   </span>
                 );
               })}
-              <button onClick={()=> handlerButtomDeleteAll()}>Borrar todo</button>
+              <div className="title d-flex justify-content-center pt-2">
+              <button onClick={()=> handlerButtomDeleteAll()} className="title d-flex justify-content-center py-2 px-3 g-tareas text-black my-1
+              rounded-1"> <i className="fas fa-trash"> Borrar todo </i></button>
+            </div>
             </div>
           </div>
         </div>
